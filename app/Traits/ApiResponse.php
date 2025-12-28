@@ -27,6 +27,31 @@ trait ApiResponse
         return $this->success($data, $message, 201);
     }
 
+     /**
+     * Respon sukses update (200)
+     */
+    public function successUpdated($data = null, string $message = 'Resource updated successfully', int $code = 200): JsonResponse
+    {
+        return response()->json([
+            'status'  => 'success',
+            'message' => $message,
+            'data'    => $data,
+        ], $code);
+    }
+
+
+     /**
+     * Respon sukses update (200)
+     */
+    public function successDeleted( string $message = 'Resource deleted successfully', int $code = 200): JsonResponse
+    {
+        return response()->json([
+            'status'  => 'success',
+            'message' => $message,
+        ], $code);
+    }
+
+
     /**
      * Respon sukses dengan paginasi
      */
