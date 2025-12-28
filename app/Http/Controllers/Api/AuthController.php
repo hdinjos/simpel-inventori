@@ -6,11 +6,15 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
+use App\Traits\ApiResponse;
 
 class AuthController extends Controller
 {
-    public function login (Request $request){
-          $request->validate([
+    use ApiResponse;
+
+    public function login(Request $request)
+    {
+        $request->validate([
             'email'    => 'required|email',
             'password' => 'required'
         ]);
@@ -30,5 +34,11 @@ class AuthController extends Controller
             'token'   => $token,
             'user'    => $user
         ]);
+    }
+
+    public function getUser(Request $request)
+    {
+        $user = $request->user();
+        return $this->success($user);
     }
 }
