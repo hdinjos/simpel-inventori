@@ -9,9 +9,10 @@ trait HasSnowflakeId
     /**
      * Boot trait untuk auto generate snowflake id
      */
-    protected static function bootHasSnowflakeId() {
-        static::creating(function($model){
-            if(!$model->getKey()){
+    protected static function bootHasSnowflakeId()
+    {
+        static::creating(function ($model) {
+            if (!$model->getKey()) {
                 $model->{$model->getKeyName()} = self::generateSnowflakeId();
             }
         });
@@ -20,10 +21,11 @@ trait HasSnowflakeId
     /**
      * Generate Snowflake ID
      */
-    protected static function generateSnowflakeId(): int {
+    protected static function generateSnowflakeId(): int
+    {
         static $snowflake;
 
-        if(!$snowflake){
+        if (!$snowflake) {
             $snowflake = new Snowflake(
                 config('snowflakeid.datacenter_id'),
                 config('snowflakeid.worker_id')
@@ -31,5 +33,13 @@ trait HasSnowflakeId
         }
 
         return $snowflake->id();
+    }
+
+     /**
+     * auto convert to string
+     */
+    public function initializeHasSnowflakeId()
+    {
+        $this->casts['id'] = 'string';
     }
 }
