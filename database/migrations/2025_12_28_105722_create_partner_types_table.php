@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('partner_types', function (Blueprint $table) {
-            $table->bigInteger('id')->primary;
+            $table->bigInteger('id')->primary();
             $table->string('name');
             $table->string('description');
             $table->timestamps();
