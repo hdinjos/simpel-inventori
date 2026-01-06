@@ -28,7 +28,12 @@ class Partner extends Model
         'name',
         'phone',
         'address',
-        'active'
+        'active',
+        'partner_type_id'
+    ];
+
+     protected $hidden = [
+        "partner_type_id"
     ];
 
     /**
@@ -38,4 +43,5 @@ class Partner extends Model
     {
         return $this->belongsTo(PartnerType::class);
     }
+
 }
