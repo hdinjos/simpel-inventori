@@ -2,13 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\Partner;
-use Illuminate\Http\Request;
-
-
-
 use App\Http\Controllers\Controller;
 use App\Traits\ApiResponse;
+use App\Models\Partner;
 use App\Http\Requests\Partner\StorePartnerRequest;
 use App\Http\Requests\Partner\UpdatePartnerRequest;
 
@@ -20,7 +16,7 @@ class PartnerController extends Controller
      */
     public function index()
     {
-        $partners = Partner::with('partnerType:id,name')->get();
+        $partners = Partner::with('partnerType')->get();
         return $this->success($partners);
     }
 
@@ -31,8 +27,9 @@ class PartnerController extends Controller
     {
         $validated = $request->validated();
 
-        $partners = Partner::create($validated);
-        return $this->created($partners);
+        $partner = Partner::create($validated);
+        $partner->load('partnerType');
+        return $this->created($partner);
     }
 
     /**
@@ -40,7 +37,7 @@ class PartnerController extends Controller
      */
     public function show(string $id)
     {
-        $partner = Partner::with('partnerType:id,name')->findOrFail($id);
+        $partner = Partner::with('partnerType')->findOrFail($id);
         return $this->success($partner);
     }
 
@@ -51,8 +48,9 @@ class PartnerController extends Controller
     {
         $validated = $request->validated();
         $partner = Partner::findOrFail($id);
-
+        
         $partner->update($validated);
+        $partner->load('partnerType');
         return $this->successUpdated($partner);
     }
 

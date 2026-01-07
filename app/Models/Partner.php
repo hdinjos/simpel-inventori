@@ -32,8 +32,8 @@ class Partner extends Model
         'partner_type_id'
     ];
 
-     protected $hidden = [
-        "partner_type_id"
+    protected $casts = [
+        'partner_type_id' => 'string'
     ];
 
     /**
