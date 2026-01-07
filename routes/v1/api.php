@@ -8,8 +8,11 @@ use App\Http\Controllers\Api\PartnerTypeController;
 use App\Http\Controllers\Api\PartnerController;
 
 Route::post('/login', [AuthController::class, 'login']);
-Route::get('/user', [AuthController::class, 'getUser'])->middleware('auth:sanctum');
-Route::apiResource("product-categories", ProductCategoryController::class)->middleware('auth:sanctum');
-Route::apiResource("units", UnitController::class)->middleware('auth:sanctum');
-Route::apiResource("partner-types", PartnerTypeController::class)->middleware('auth:sanctum');
-Route::apiResource("partners", PartnerController::class)->middleware('auth:sanctum');
+
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get('/user', [AuthController::class, 'getUser']);
+    Route::apiResource("product-categories", ProductCategoryController::class);
+    Route::apiResource("units", UnitController::class);
+    Route::apiResource("partner-types", PartnerTypeController::class);
+    Route::apiResource("partners", PartnerController::class);
+});
