@@ -12,7 +12,7 @@ class ProductCategory extends Model
     public $incrementing = false;
     protected $keyType = 'int';
 
-     /**
+    /**
      * The table associated with the model.
      *
      * @var string
@@ -29,4 +29,8 @@ class ProductCategory extends Model
         'description',
     ];
 
+    protected function product()
+    {
+        return $this->hasMany(Product::class);
+    }
 }

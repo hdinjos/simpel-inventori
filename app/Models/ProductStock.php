@@ -5,8 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\HasSnowflakeId;
 
-
-class Unit extends Model
+class ProductStock extends Model
 {
     use HasSnowflakeId;
 
@@ -18,7 +17,7 @@ class Unit extends Model
      *
      * @var string
      */
-    protected $table = 'units';
+    protected $table = 'product_stocks';
 
     /**
      * The attributes that are mass assignable.
@@ -26,12 +25,12 @@ class Unit extends Model
      * @var list<string>
      */
     protected $fillable = [
-        'name',
-        'description',
+        'quantity',
+        'product_id'
     ];
 
     protected function product()
     {
-        $this->hasMany(Product::class);
+        return $this->belongsTo(Product::class);
     }
 }
