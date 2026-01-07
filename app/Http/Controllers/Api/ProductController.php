@@ -29,29 +29,13 @@ class ProductController extends Controller
     public function store(StoreProductRequest $request)
     {
         $validated = $request->validated();
+        $lastCode = Product::max('code') ?? 'PRD-00000000';
+        $nextCode = $this->incrementCode($lastCode);
 
-        $lastProduct = Product::orderBy('code', 'desc')->first();
-        if (!$lastProduct) {
-            $firstCode = $this->incrementCode('PRD-00000000');
-            $dataReq = array_merge($validated, ["code" => $firstCode]);
-            $product = Product::create($dataReq);
-            ProductStock::create([
-                'product_id' => $product->id,
-                'quantity' => 0
-            ]);
-
-            $product->load(['productCategory', 'unit', 'stock']);
-
-            return  $this->success($product);
-        }
-        $lastCode = $lastProduct->code;
-        $nextCode =  $this->incrementCode($lastCode);
         $dataReq = array_merge($validated, ["code" => $nextCode]);
         $product = Product::create($dataReq);
-        ProductStock::create([
-            'product_id' => $product->id,
-            'quantity' => 0
-        ]);
+
+        $product->stock(['quantity' => 0]);
 
         $product->load(['productCategory', 'unit', 'stock']);
         return  $this->success($product);
