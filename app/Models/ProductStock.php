@@ -29,6 +29,10 @@ class ProductStock extends Model
         'product_id'
     ];
 
+    protected $casts = [
+        'product_id' => 'string'
+    ];
+
     protected function product()
     {
         return $this->belongsTo(Product::class);

@@ -8,6 +8,7 @@ use App\Models\ProductStock;
 use Illuminate\Http\Request;
 use App\Traits\ApiResponse;
 use App\Http\Requests\Product\StoreProductRequest;
+use App\Http\Requests\Product\UpdateProductRequest;
 
 class ProductController extends Controller
 {
@@ -32,37 +33,49 @@ class ProductController extends Controller
         $lastCode = Product::max('code') ?? 'PRD-00000000';
         $nextCode = $this->incrementCode($lastCode);
 
-        $dataReq = array_merge($validated, ["code" => $nextCode]);
+        $dataReq = array_merge($validated, ['code' => $nextCode]);
         $product = Product::create($dataReq);
 
-        $product->stock(['quantity' => 0]);
+        $product->stock()->create(['quantity' => 0]);
 
         $product->load(['productCategory', 'unit', 'stock']);
-        return  $this->success($product);
+        return  $this->created($product);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Product $product)
+    public function show(string $id)
     {
-        //
+        $product = Product::findOrFail($id);
+        $product->load(['productCategory', 'unit', 'stock']);
+        return $this->success($product);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Product $product)
+    public function update(UpdateProductRequest $request, string $id)
     {
-        //
+        $validated = $request->validated();
+
+        $product = Product::findOrFail($id);
+        $product->update($validated);
+
+        $product->load(['productCategory', 'unit', 'stock']);
+
+        return $this->successUpdated($product);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Product $product)
+    public function destroy(string $id)
     {
-        //
+        $product = Product::findOrFail($id);
+        $product->delete();
+
+        return $this->successDeleted();
     }
 
     protected function incrementCode(string $lastCode, string $prefix = 'PRD', int $pad = 8): string
