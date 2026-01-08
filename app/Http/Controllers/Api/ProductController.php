@@ -4,11 +4,11 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
-use App\Models\ProductStock;
-use Illuminate\Http\Request;
 use App\Traits\ApiResponse;
 use App\Http\Requests\Product\StoreProductRequest;
 use App\Http\Requests\Product\UpdateProductRequest;
+use Illuminate\Support\Facades\DB;
+
 
 class ProductController extends Controller
 {
@@ -30,14 +30,19 @@ class ProductController extends Controller
     public function store(StoreProductRequest $request)
     {
         $validated = $request->validated();
-        $lastCode = Product::max('code') ?? 'PRD-00000000';
-        $nextCode = $this->incrementCode($lastCode);
+        $product =  DB::transaction(function () use ($validated) {
+            $lastProduct = Product::orderBy('code', 'desc')
+                ->lockForUpdate()
+                ->first();
+            $lastCode = $lastProduct?->code ?? 'PRD-00000000';
+            $nextCode = $this->incrementCode($lastCode);
 
-        $dataReq = array_merge($validated, ['code' => $nextCode]);
-        $product = Product::create($dataReq);
+            $dataReq = array_merge($validated, ['code' => $nextCode]);
+            $product = Product::create($dataReq);
 
-        $product->stock()->create(['quantity' => 0]);
-
+            $product->stock()->create(['quantity' => 0]);
+            return $product;
+        });
         $product->load(['productCategory', 'unit', 'stock']);
         return  $this->created($product);
     }
