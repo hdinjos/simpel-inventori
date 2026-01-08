@@ -11,7 +11,7 @@ use App\Http\Controllers\Api\ProductController;
 Route::post('/login', [AuthController::class, 'login']);
 
 Route::middleware(['auth:sanctum'])->group(function () {
-    Route::get('/user', [AuthController::class, 'getUser']);
+    Route::get('/me', [AuthController::class, 'getUser']);
     Route::apiResource("product-categories", ProductCategoryController::class);
     Route::apiResource("units", UnitController::class);
     Route::apiResource("partner-types", PartnerTypeController::class);
