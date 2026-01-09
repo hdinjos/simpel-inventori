@@ -27,6 +27,7 @@ return new class extends Migration
             $table->foreign('unit_id')->references('id')->on('units')
                 ->cascadeOnUpdate()
                 ->restrictOnDelete();
+            $table->softDeletes();
         });
     }
 

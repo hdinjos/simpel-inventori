@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\HasSnowflakeId;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ProductCategory extends Model
 {
-    use HasSnowflakeId;
+    use HasSnowflakeId, SoftDeletes;
 
     public $incrementing = false;
     protected $keyType = 'int';
@@ -27,6 +28,10 @@ class ProductCategory extends Model
     protected $fillable = [
         'name',
         'description',
+    ];
+
+    protected $hidden = [
+        'deleted_at'
     ];
 
     protected function product()

@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\HasSnowflakeId;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Product extends Model
 {
-    use HasSnowflakeId;
+    use HasSnowflakeId, SoftDeletes;
 
     public $incrementing = false;
     protected $keyType = 'int';
@@ -37,6 +38,9 @@ class Product extends Model
         'unit_id' => 'string',
     ];
 
+    protected $hidden = [
+        'deleted_at'
+    ];
 
     /**
      * Get the type associated with the productCategory.

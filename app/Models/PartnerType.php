@@ -4,16 +4,17 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\HasSnowflakeId;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 
 class PartnerType extends Model
 {
-    use HasSnowflakeId;
+    use HasSnowflakeId, SoftDeletes;
 
     public $incrementing = false;
     protected $keyType = 'int';
 
-     /**
+    /**
      * The table associated with the model.
      *
      * @var string
@@ -28,6 +29,10 @@ class PartnerType extends Model
     protected $fillable = [
         'name',
         'description',
+    ];
+
+    protected $hidden = [
+        'deleted_at'
     ];
 
     /**

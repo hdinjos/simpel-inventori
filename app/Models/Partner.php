@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\HasSnowflakeId;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 
 class Partner extends Model
 {
-    use HasSnowflakeId;
+    use HasSnowflakeId, SoftDeletes;
 
     public $incrementing = false;
     protected $keyType = 'int';
@@ -36,6 +38,10 @@ class Partner extends Model
         'partner_type_id' => 'string'
     ];
 
+    protected $hidden = [
+        'deleted_at'
+    ];
+
     /**
      * Get the type associated with the partner.
      */
@@ -43,5 +49,4 @@ class Partner extends Model
     {
         return $this->belongsTo(PartnerType::class);
     }
-
 }

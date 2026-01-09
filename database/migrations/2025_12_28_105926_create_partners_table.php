@@ -22,6 +22,7 @@ return new class extends Migration
             $table->foreign('partner_type_id')->references('id')->on('partner_types')
                 ->cascadeOnUpdate()
                 ->restrictOnDelete();
+            $table->softDeletes();
         });
     }
 
