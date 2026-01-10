@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\UnitController;
 use App\Http\Controllers\Api\PartnerTypeController;
 use App\Http\Controllers\Api\PartnerController;
 use App\Http\Controllers\Api\ProductController;
+use App\Http\Controllers\Api\PackageController;
 
 Route::post('/login', [AuthController::class, 'login']);
 
@@ -17,4 +18,5 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::apiResource("partner-types", PartnerTypeController::class);
     Route::apiResource("partners", PartnerController::class);
     Route::apiResource("products", ProductController::class);
+    Route::apiResource("packages", PackageController::class);
 });

@@ -209,6 +209,208 @@
                 ]
             }
         },
+        "/api/v1/packages": {
+            "get": {
+                "tags": [
+                    "Package"
+                ],
+                "summary": "List packages",
+                "description": "Display a listing of the resource.",
+                "operationId": "c84b73b713dc339aec65c52bfa9e98f0",
+                "responses": {
+                    "200": {
+                        "description": "List of packages",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Resources retrieved successfully"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "string",
+                                                        "example": "845852226109969182"
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Paket Luxury 1"
+                                                    },
+                                                    "code": {
+                                                        "type": "string",
+                                                        "example": "PKG-00000001"
+                                                    },
+                                                    "description": {
+                                                        "type": "string",
+                                                        "example": "Paket luxury v1"
+                                                    },
+                                                    "is_active": {
+                                                        "type": "boolean",
+                                                        "example": true
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2025-12-28T10:42:53.000000Z"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2025-12-28T10:42:53.000000Z"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Package"
+                ],
+                "summary": "Create a package",
+                "description": "Store a newly created resource in storage.",
+                "operationId": "7d5c7243b8a60e2ea387850015d58a1e",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "description",
+                                    "is_active"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Paket Luxury R1"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Product Luxury R1 description"
+                                    },
+                                    "is_active": {
+                                        "type": "boolean",
+                                        "example": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Package created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Resource created successfully"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "string",
+                                                    "example": "845852226109969182"
+                                                },
+                                                "code": {
+                                                    "type": "string",
+                                                    "example": "PRD-00000001"
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Paket Luxury R1"
+                                                },
+                                                "description": {
+                                                    "type": "string",
+                                                    "example": "Product Luxury R1 description"
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2025-12-28T10:42:53.000000Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2025-12-28T10:42:53.000000Z"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/api/v1/partners": {
             "get": {
                 "tags": [
@@ -3286,6 +3488,10 @@
         {
             "name": "Auth",
             "description": "Auth"
+        },
+        {
+            "name": "Package",
+            "description": "Package"
         },
         {
             "name": "Partner",
