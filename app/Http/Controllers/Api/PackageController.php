@@ -7,6 +7,7 @@ use App\Models\Package;
 use Illuminate\Http\Request;
 use App\Traits\ApiResponse;
 use App\Http\Requests\Package\StorePackageRequest;
+use App\Http\Requests\Package\UpdatePackageRequest;
 use OpenApi\Attributes as OA;
 
 
@@ -37,19 +38,10 @@ class PackageController extends Controller
                             items: new OA\Items(
                                 properties: [
                                     new OA\Property(property: 'id', type: 'string', example: '845852226109969182'),
-                                    new OA\Property(property: 'name', type: 'string', example: 'Paket Luxury 1'),
+                                    new OA\Property(property: 'name', type: 'string', example: 'Paket Luxury R1'),
                                     new OA\Property(property: 'code', type: 'string', example: 'PKG-00000001'),
-                                    new OA\Property(property: 'description', type: 'string', example: 'Paket luxury v1'),
+                                    new OA\Property(property: 'description', type: 'string', example: 'Paket Luxury R1 description'),
                                     new OA\Property(property: 'is_active', type: 'boolean', example: true),
-                                    // new OA\Property(property: 'partner_type_id', type: 'string', example: '845852226109969182'),
-                                    // new OA\Property(
-                                    //     property: 'partner_type',
-                                    //     type: 'object',
-                                    //     properties: [
-                                    //         new OA\Property(property: 'id', type: 'string', example: '845852226109969182'),
-                                    //         new OA\Property(property: 'name', type: 'string', example: 'Supplier'),
-                                    //     ]
-                                    // ),
                                     new OA\Property(property: 'created_at', type: 'string', format: 'date-time', example: '2025-12-28T10:42:53.000000Z'),
                                     new OA\Property(property: 'updated_at', type: 'string', format: 'date-time', example: '2025-12-28T10:42:53.000000Z'),
                                 ]
@@ -71,7 +63,7 @@ class PackageController extends Controller
     )]
     public function index()
     {
-        $packages = Package::with('packageItems')->get();
+        $packages = Package::get();
         return $this->success($packages);
     }
 
@@ -108,47 +100,11 @@ class PackageController extends Controller
                             type: 'object',
                             properties: [
                                 new OA\Property(property: 'id', type: 'string', example: '845852226109969182'),
-                                new OA\Property(property: 'code', type: 'string', example: 'PRD-00000001'),
+                                new OA\Property(property: 'code', type: 'string', example: 'PRG-00000001'),
                                 new OA\Property(property: 'name', type: 'string', example: 'Paket Luxury R1'),
                                 new OA\Property(property: 'description', type: 'string', example: 'Product Luxury R1 description'),
-                                // new OA\Property(property: 'product_category_id', type: 'string', example: '845852226109969182'),
-                                // new OA\Property(property: 'unit_id', type: 'string', example: '845852226109969182'),
                                 new OA\Property(property: 'created_at', type: 'string', format: 'date-time', example: '2025-12-28T10:42:53.000000Z'),
                                 new OA\Property(property: 'updated_at', type: 'string', format: 'date-time', example: '2025-12-28T10:42:53.000000Z'),
-                                // new OA\Property(
-                                //     property: 'productCategory',
-                                //     type: 'object',
-                                //     properties: [
-                                //         new OA\Property(property: 'id', type: 'string', example: '845852226109969182'),
-                                //         new OA\Property(property: 'name', type: 'string', example: 'Electronics'),
-                                //         new OA\Property(property: 'description', type: 'string', example: 'Electronics Category'),
-                                //         new OA\Property(property: 'created_at', type: 'string', format: 'date-time', example: '2025-12-28T10:42:53.000000Z'),
-                                //         new OA\Property(property: 'updated_at', type: 'string', format: 'date-time', example: '2025-12-28T10:42:53.000000Z'),
-                                //     ]
-                                // ),
-                                // new OA\Property(
-                                //     property: 'unit',
-                                //     type: 'object',
-                                //     properties: [
-                                //         new OA\Property(property: 'id', type: 'string', example: '845852226109969182'),
-                                //         new OA\Property(property: 'name', type: 'string', example: 'Box'),
-                                //         new OA\Property(property: 'description', type: 'string', example: 'Box unit 1'),
-                                //         new OA\Property(property: 'created_at', type: 'string', format: 'date-time', example: '2025-12-28T10:42:53.000000Z'),
-                                //         new OA\Property(property: 'updated_at', type: 'string', format: 'date-time', example: '2025-12-28T10:42:53.000000Z'),
-                                //     ]
-                                // ),
-                                // new OA\Property(
-                                //     property: 'stock',
-                                //     type: 'object',
-                                //     properties: [
-                                //         new OA\Property(property: 'id', type: 'string', example: '845852226109969182'),
-                                //         new OA\Property(property: 'product_id', type: 'string', example: '845852226109969182'),
-                                //         new OA\Property(property: 'quantity', type: 'integer', example: 0),
-                                //         new OA\Property(property: 'created_at', type: 'string', format: 'date-time', example: '2025-12-28T10:42:53.000000Z'),
-                                //         new OA\Property(property: 'updated_at', type: 'string', format: 'date-time', example: '2025-12-28T10:42:53.000000Z')
-                                //     ]
-                                // ),
-
                             ]
                         ),
                     ]
@@ -182,10 +138,62 @@ class PackageController extends Controller
     /**
      * Display the specified resource.
      */
+
+    #[OA\Get(
+        path: '/api/v1/packages/{id}',
+        security: [['sanctum' => []]],
+        summary: 'Get a package by id',
+        tags: ['Package'],
+        parameters: [
+            new OA\Parameter(name: 'id', in: 'path', required: true, schema: new OA\Schema(type: 'string'), example: '845852226109969182')
+        ],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'Package retrieved',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: 'status', type: 'string', example: 'success'),
+                        new OA\Property(property: 'message', type: 'string', example: 'Resource retrieved successfully'),
+                        new OA\Property(
+                            property: 'data',
+                            type: 'object',
+                            properties: [
+                                new OA\Property(property: 'id', type: 'string', example: '845852226109969182'),
+                                new OA\Property(property: 'code', type: 'string', example: 'PKG-00000001'),
+                                new OA\Property(property: 'name', type: 'string', example: 'Paket Luxury R1'),
+                                new OA\Property(property: 'description', type: 'string', example: 'Paket Luxury R1 description'),
+                                new OA\Property(property: 'created_at', type: 'string', format: 'date-time', example: '2025-12-28T10:42:53.000000Z'),
+                                new OA\Property(property: 'updated_at', type: 'string', format: 'date-time', example: '2025-12-28T10:42:53.000000Z'),
+                            ]
+                        ),
+                    ]
+                )
+            ),
+            new OA\Response(
+                response: 404,
+                description: 'Data not found',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: 'success', type: 'boolean', example: false),
+                        new OA\Property(property: 'message', type: 'string', example: 'Data not found'),
+                    ]
+                )
+            ),
+            new OA\Response(
+                response: 401,
+                description: 'Unauthorized',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: 'message', type: 'string', example: 'Unauthenticated.'),
+                    ]
+                )
+            )
+        ]
+    )]
     public function show(string $id)
     {
         $package = Package::findOrFail($id);
-        $package::load('packageItems');
 
         return $this->success($package);
     }
@@ -193,17 +201,130 @@ class PackageController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Package $package)
+
+    #[OA\Put(
+        path: '/api/v1/packages/{id}',
+        security: [['sanctum' => []]],
+        summary: 'Update a package category',
+        tags: ['Package'],
+        parameters: [
+            new OA\Parameter(name: 'id', in: 'path', required: true, schema: new OA\Schema(type: 'string'), example: '845852226109969182')
+        ],
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\JsonContent(
+                required: ['name', 'description', 'is_active'],
+                properties: [
+                    new OA\Property(property: 'name', type: 'string', example: 'Paket Luxury R1'),
+                    new OA\Property(property: 'description', type: 'string', example: 'Product Luxury R1 description'),
+                    new OA\Property(property: 'is_active', type: 'boolean', example: true),
+                ]
+            )
+        ),
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'Package updated',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: 'status', type: 'string', example: 'success'),
+                        new OA\Property(property: 'message', type: 'string', example: 'Resource updated successfully'),
+                        new OA\Property(
+                            property: 'data',
+                            type: 'object',
+                            properties: [
+                                new OA\Property(property: 'id', type: 'string', example: '845852226109969182'),
+                                new OA\Property(property: 'code', type: 'string', example: 'PKG-00000001'),
+                                new OA\Property(property: 'name', type: 'string', example: 'Paket Luxury R1'),
+                                new OA\Property(property: 'description', type: 'string', example: 'Product Luxury R1 description'),
+                                new OA\Property(property: 'is_active', type: 'boolean', example: true),
+                                new OA\Property(property: 'created_at', type: 'string', format: 'date-time', example: '2025-12-28T10:42:53.000000Z'),
+                                new OA\Property(property: 'updated_at', type: 'string', format: 'date-time', example: '2025-12-28T10:42:53.000000Z'),
+                            ]
+                        ),
+                    ]
+                )
+            ),
+            new OA\Response(
+                response: 404,
+                description: 'Data not found',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: 'success', type: 'boolean', example: false),
+                        new OA\Property(property: 'message', type: 'string', example: 'Data not found'),
+                    ]
+                )
+            ),
+            new OA\Response(
+                response: 401,
+                description: 'Unauthorized',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: 'message', type: 'string', example: 'Unauthenticated.'),
+                    ]
+                )
+            ),
+        ]
+    )]
+    public function update(UpdatePackageRequest $request, string $id)
     {
-        //
+        $validated = $request->validated();
+        $package = Package::findOrFail($id);
+
+        $package->update($validated);
+
+        return $this->successUpdated($package);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Package $package)
+
+    #[OA\Delete(
+        path: '/api/v1/packages/{id}',
+        security: [['sanctum' => []]],
+        summary: 'Delete a package category',
+        tags: ['Package'],
+        parameters: [
+            new OA\Parameter(name: 'id', in: 'path', required: true, schema: new OA\Schema(type: 'string'), example: '845852226109969182')
+        ],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'Package deleted',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: 'status', type: 'string', example: 'success'),
+                        new OA\Property(property: 'message', type: 'string', example: 'Resource deleted successfully'),
+                    ]
+                )
+            ),
+            new OA\Response(
+                response: 404,
+                description: 'Data not found',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: 'success', type: 'boolean', example: false),
+                        new OA\Property(property: 'message', type: 'string', example: 'Data not found'),
+                    ]
+                )
+            ),
+            new OA\Response(
+                response: 401,
+                description: 'Unauthorized',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: 'message', type: 'string', example: 'Unauthenticated.'),
+                    ]
+                )
+            ),
+        ]
+    )]
+    public function destroy(string $id)
     {
-        //
+        $package = Package::findOrFail($id);
+        $package->delete();
+        return $this->successDeleted();
     }
 
     protected function incrementCode(string $lastCode, string $prefix = 'PKG', int $pad = 8)

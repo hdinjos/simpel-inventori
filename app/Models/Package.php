@@ -32,6 +32,10 @@ class Package extends Model
         'is_active',
     ];
 
+    protected $hidden = [
+        'deleted_at'
+    ];
+
     public function packageItems()
     {
         return $this->hasMany(PackageItem::class);

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('packages', function (Blueprint $table) {
             $table->bigInteger('id')->primary();
-            $table->string('code', 15);
+            $table->string('code', 15)->unique();
             $table->string('name');
             $table->string('description');
             $table->boolean('is_active');
