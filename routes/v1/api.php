@@ -20,5 +20,5 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::apiResource("partners", PartnerController::class);
     Route::apiResource("products", ProductController::class);
     Route::apiResource("packages", PackageController::class);
-    Route::apiResource("package-items", PackageItemController::class);
+    Route::apiResource("package-items", PackageItemController::class)->except('show');
 });
