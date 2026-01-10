@@ -4,6 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use App\Enums\TransactionType;
+use App\Enums\TransactionStatus;
 
 return new class extends Migration
 {
@@ -19,7 +20,7 @@ return new class extends Migration
             $table->bigInteger('partner_id');
             $table->enum('type', TransactionType::cases()); // in | out
             $table->text('note');
-            $table->integer('quantity');
+            $table->enum('status', TransactionStatus::cases());
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')

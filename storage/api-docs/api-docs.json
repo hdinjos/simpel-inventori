@@ -3949,6 +3949,360 @@
                 ]
             }
         },
+        "/api/v1/transactions": {
+            "get": {
+                "tags": [
+                    "Transaction"
+                ],
+                "summary": "List Transactions",
+                "description": "Display a listing of the resource.",
+                "operationId": "7982071b501714798015d3493437d591",
+                "responses": {
+                    "200": {
+                        "description": "List of transactions",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Resources retrieved successfully"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "string",
+                                                        "example": "845852226109969182"
+                                                    },
+                                                    "identifier": {
+                                                        "type": "string",
+                                                        "example": "TRX202601-00000001"
+                                                    },
+                                                    "user_id": {
+                                                        "type": "string",
+                                                        "example": "845852226109969182"
+                                                    },
+                                                    "partner_id": {
+                                                        "type": "string",
+                                                        "example": "845852226109969182"
+                                                    },
+                                                    "note": {
+                                                        "type": "string",
+                                                        "example": "Transaksi product in"
+                                                    },
+                                                    "type": {
+                                                        "type": "string",
+                                                        "example": "in"
+                                                    },
+                                                    "status": {
+                                                        "type": "string",
+                                                        "example": "draft"
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2025-12-28T10:42:53.000000Z"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2025-12-28T10:42:53.000000Z"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Transaction"
+                ],
+                "summary": "Create a transaction",
+                "description": "Store a newly created resource in storage.",
+                "operationId": "a02494103b0173bce800dcdf6c920ce6",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "user_id",
+                                    "partner_id",
+                                    "type",
+                                    "note"
+                                ],
+                                "properties": {
+                                    "user_id": {
+                                        "type": "string",
+                                        "example": "845852226109969182"
+                                    },
+                                    "partner_id": {
+                                        "type": "string",
+                                        "example": "845852226109969182"
+                                    },
+                                    "type": {
+                                        "type": "string",
+                                        "example": "in"
+                                    },
+                                    "note": {
+                                        "type": "string",
+                                        "example": "product in"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "transaction created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Resource created successfully"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "string",
+                                                    "example": "845852226109969182"
+                                                },
+                                                "identifier": {
+                                                    "type": "string",
+                                                    "example": "TRX202601-00000001"
+                                                },
+                                                "user_id": {
+                                                    "type": "string",
+                                                    "example": "845852226109969182"
+                                                },
+                                                "partner_id": {
+                                                    "type": "string",
+                                                    "example": "845852226109969182"
+                                                },
+                                                "note": {
+                                                    "type": "string",
+                                                    "example": "Transaksi product in"
+                                                },
+                                                "type": {
+                                                    "type": "string",
+                                                    "example": "in"
+                                                },
+                                                "status": {
+                                                    "type": "string",
+                                                    "example": "draft"
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2025-12-28T10:42:53.000000Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2025-12-28T10:42:53.000000Z"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/transactions/{id}": {
+            "put": {
+                "tags": [
+                    "Transaction"
+                ],
+                "summary": "Update a transaction",
+                "description": "Update the specified resource in storage.",
+                "operationId": "5c8f5f296c78f99badbccb1124584064",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "845852226109969182"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Transaction updated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Resource updated successfully"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "string",
+                                                    "example": "845852226109969182"
+                                                },
+                                                "identifier": {
+                                                    "type": "string",
+                                                    "example": "TRX202601-00000001"
+                                                },
+                                                "user_id": {
+                                                    "type": "string",
+                                                    "example": "845852226109969182"
+                                                },
+                                                "partner_id": {
+                                                    "type": "string",
+                                                    "example": "845852226109969182"
+                                                },
+                                                "note": {
+                                                    "type": "string",
+                                                    "example": "Transaksi product in"
+                                                },
+                                                "type": {
+                                                    "type": "string",
+                                                    "example": "in"
+                                                },
+                                                "status": {
+                                                    "type": "string",
+                                                    "example": "finished"
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2025-12-28T10:42:53.000000Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2025-12-28T10:42:53.000000Z"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Data not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Data not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/api/v1/units": {
             "get": {
                 "tags": [
@@ -4496,6 +4850,10 @@
         {
             "name": "Product",
             "description": "Product"
+        },
+        {
+            "name": "Transaction",
+            "description": "Transaction"
         },
         {
             "name": "Unit",
