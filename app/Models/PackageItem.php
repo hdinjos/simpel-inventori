@@ -27,18 +27,26 @@ class PackageItem extends Model
      */
     protected $fillable = [
         'quantity',
-        'code',
-        'pacakge_id',
+        'package_id',
         'product_id',
+    ];
+
+    protected $casts = [
+        "package_id" => 'string',
+        "product_id" => 'string'
+    ];
+
+    protected $hidden = [
+        'deleted_at'
     ];
 
     public function package()
     {
-        $this->belongsTo(Package::class);
+        return $this->belongsTo(Package::class);
     }
 
     public function product()
     {
-        $this->belongsTo(Product::class);
+        return  $this->belongsTo(Product::class);
     }
 }

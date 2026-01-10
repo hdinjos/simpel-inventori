@@ -65,4 +65,12 @@ class Product extends Model
     {
         return $this->hasOne(ProductStock::class);
     }
+
+    /**
+     * Get the type associated with the productStock.
+     */
+    public function packageItems()
+    {
+        return $this->hasOne(PackageItem::class);
+    }
 }

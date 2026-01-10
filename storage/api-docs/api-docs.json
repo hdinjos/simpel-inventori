@@ -242,7 +242,7 @@
                                                     },
                                                     "name": {
                                                         "type": "string",
-                                                        "example": "Paket Luxury 1"
+                                                        "example": "Paket Luxury R1"
                                                     },
                                                     "code": {
                                                         "type": "string",
@@ -250,7 +250,7 @@
                                                     },
                                                     "description": {
                                                         "type": "string",
-                                                        "example": "Paket luxury v1"
+                                                        "example": "Paket Luxury R1 description"
                                                     },
                                                     "is_active": {
                                                         "type": "boolean",
@@ -358,7 +358,7 @@
                                                 },
                                                 "code": {
                                                     "type": "string",
-                                                    "example": "PRD-00000001"
+                                                    "example": "PRG-00000001"
                                                 },
                                                 "name": {
                                                     "type": "string",
@@ -453,15 +453,15 @@
                                                 },
                                                 "code": {
                                                     "type": "string",
-                                                    "example": "PRD-00000001"
+                                                    "example": "PKG-00000001"
                                                 },
                                                 "name": {
                                                     "type": "string",
-                                                    "example": "Product A"
+                                                    "example": "Paket Luxury R1"
                                                 },
                                                 "description": {
                                                     "type": "string",
-                                                    "example": "Product description"
+                                                    "example": "Paket Luxury R1 description"
                                                 },
                                                 "created_at": {
                                                     "type": "string",
@@ -556,11 +556,11 @@
                                 "properties": {
                                     "name": {
                                         "type": "string",
-                                        "example": "Electronics"
+                                        "example": "Paket Luxury R1"
                                     },
                                     "description": {
                                         "type": "string",
-                                        "example": "Category for electronic items"
+                                        "example": "Product Luxury R1 description"
                                     },
                                     "is_active": {
                                         "type": "boolean",
@@ -593,13 +593,17 @@
                                                     "type": "string",
                                                     "example": "845852226109969182"
                                                 },
+                                                "code": {
+                                                    "type": "string",
+                                                    "example": "PKG-00000001"
+                                                },
                                                 "name": {
                                                     "type": "string",
-                                                    "example": "Electronics"
+                                                    "example": "Paket Luxury R1"
                                                 },
                                                 "description": {
                                                     "type": "string",
-                                                    "example": "Category for electronic items"
+                                                    "example": "Product Luxury R1 description"
                                                 },
                                                 "is_active": {
                                                     "type": "boolean",
@@ -617,6 +621,518 @@
                                                 }
                                             },
                                             "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Data not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Data not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Package"
+                ],
+                "summary": "Delete a package category",
+                "description": "Remove the specified resource from storage.",
+                "operationId": "981fa1070f505fd790c1ec7205aed86f",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "845852226109969182"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Package deleted",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Resource deleted successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Data not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Data not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/package-items": {
+            "get": {
+                "tags": [
+                    "Package Item"
+                ],
+                "summary": "List package items",
+                "description": "Display a listing of the resource.",
+                "operationId": "25ddcbf49d9f109e17f16c53163b3b0a",
+                "responses": {
+                    "200": {
+                        "description": "List of package items",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Resources retrieved successfully"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "string",
+                                                        "example": "845852226109969182"
+                                                    },
+                                                    "quantity": {
+                                                        "type": "boolean",
+                                                        "example": 8
+                                                    },
+                                                    "package_id": {
+                                                        "type": "string",
+                                                        "example": "845852226109969182"
+                                                    },
+                                                    "product_id": {
+                                                        "type": "string",
+                                                        "example": "845852226109969182"
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2025-12-28T10:42:53.000000Z"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2025-12-28T10:42:53.000000Z"
+                                                    },
+                                                    "package": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "string",
+                                                                "example": "845852226109969182"
+                                                            },
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "Paket Luxury R1"
+                                                            },
+                                                            "code": {
+                                                                "type": "string",
+                                                                "example": "PKG-00000001"
+                                                            },
+                                                            "description": {
+                                                                "type": "string",
+                                                                "example": "Paket Luxury R1 description"
+                                                            },
+                                                            "is_active": {
+                                                                "type": "boolean",
+                                                                "example": true
+                                                            },
+                                                            "created_at": {
+                                                                "type": "string",
+                                                                "format": "date-time",
+                                                                "example": "2025-12-28T10:42:53.000000Z"
+                                                            },
+                                                            "updated_at": {
+                                                                "type": "string",
+                                                                "format": "date-time",
+                                                                "example": "2025-12-28T10:42:53.000000Z"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    },
+                                                    "product": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "string",
+                                                                "example": "845852226109969182"
+                                                            },
+                                                            "code": {
+                                                                "type": "string",
+                                                                "example": "PRD-00000001"
+                                                            },
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "Product A"
+                                                            },
+                                                            "description": {
+                                                                "type": "string",
+                                                                "example": "Product description"
+                                                            },
+                                                            "product_category_id": {
+                                                                "type": "string",
+                                                                "example": "845852226109969182"
+                                                            },
+                                                            "unit_id": {
+                                                                "type": "string",
+                                                                "example": "845852226109969182"
+                                                            },
+                                                            "created_at": {
+                                                                "type": "string",
+                                                                "format": "date-time",
+                                                                "example": "2025-12-28T10:42:53.000000Z"
+                                                            },
+                                                            "updated_at": {
+                                                                "type": "string",
+                                                                "format": "date-time",
+                                                                "example": "2025-12-28T10:42:53.000000Z"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Package Item"
+                ],
+                "summary": "Create a package items",
+                "description": "Store a newly created resource in storage.",
+                "operationId": "ae6dc4b910456ef7f3f5abfb1d86ad70",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "quantity",
+                                    "package_id",
+                                    "product_id"
+                                ],
+                                "properties": {
+                                    "quantity": {
+                                        "type": "integer",
+                                        "example": 5
+                                    },
+                                    "package_id": {
+                                        "type": "string",
+                                        "example": "845852226109969182"
+                                    },
+                                    "product_id": {
+                                        "type": "string",
+                                        "example": "845852226109969182"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Package Item created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Resource created successfully"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "string",
+                                                    "example": "845852226109969182"
+                                                },
+                                                "quantity": {
+                                                    "type": "boolean",
+                                                    "example": 8
+                                                },
+                                                "package_id": {
+                                                    "type": "string",
+                                                    "example": "845852226109969182"
+                                                },
+                                                "product_id": {
+                                                    "type": "string",
+                                                    "example": "845852226109969182"
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2025-12-28T10:42:53.000000Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2025-12-28T10:42:53.000000Z"
+                                                },
+                                                "package": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "string",
+                                                            "example": "845852226109969182"
+                                                        },
+                                                        "name": {
+                                                            "type": "string",
+                                                            "example": "Paket Luxury R1"
+                                                        },
+                                                        "code": {
+                                                            "type": "string",
+                                                            "example": "PKG-00000001"
+                                                        },
+                                                        "description": {
+                                                            "type": "string",
+                                                            "example": "Paket Luxury R1 description"
+                                                        },
+                                                        "is_active": {
+                                                            "type": "boolean",
+                                                            "example": true
+                                                        },
+                                                        "created_at": {
+                                                            "type": "string",
+                                                            "format": "date-time",
+                                                            "example": "2025-12-28T10:42:53.000000Z"
+                                                        },
+                                                        "updated_at": {
+                                                            "type": "string",
+                                                            "format": "date-time",
+                                                            "example": "2025-12-28T10:42:53.000000Z"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                },
+                                                "product": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "string",
+                                                            "example": "845852226109969182"
+                                                        },
+                                                        "code": {
+                                                            "type": "string",
+                                                            "example": "PRD-00000001"
+                                                        },
+                                                        "name": {
+                                                            "type": "string",
+                                                            "example": "Product A"
+                                                        },
+                                                        "description": {
+                                                            "type": "string",
+                                                            "example": "Product description"
+                                                        },
+                                                        "product_category_id": {
+                                                            "type": "string",
+                                                            "example": "845852226109969182"
+                                                        },
+                                                        "unit_id": {
+                                                            "type": "string",
+                                                            "example": "845852226109969182"
+                                                        },
+                                                        "created_at": {
+                                                            "type": "string",
+                                                            "format": "date-time",
+                                                            "example": "2025-12-28T10:42:53.000000Z"
+                                                        },
+                                                        "updated_at": {
+                                                            "type": "string",
+                                                            "format": "date-time",
+                                                            "example": "2025-12-28T10:42:53.000000Z"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/package-items/{id}": {
+            "delete": {
+                "tags": [
+                    "Package Item"
+                ],
+                "summary": "Delete a package item",
+                "description": "Remove the specified resource from storage.",
+                "operationId": "08281498f6ed11760ddd42fc7260ef9f",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "845852226109969182"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "package item deleted",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Resource deleted successfully"
                                         }
                                     },
                                     "type": "object"
@@ -3749,6 +4265,10 @@
         {
             "name": "Package",
             "description": "Package"
+        },
+        {
+            "name": "Package Item",
+            "description": "Package Item"
         },
         {
             "name": "Partner",
