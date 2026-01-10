@@ -44,4 +44,14 @@ class Transaction extends Model
     protected $hidden = [
         'deleted_at'
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function partner()
+    {
+        return $this->belongsTo(Partner::class);
+    }
 }
