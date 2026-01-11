@@ -4303,6 +4303,97 @@
                 ]
             }
         },
+        "/api/v1/transaction-items": {
+            "get": {
+                "tags": [
+                    "Transaction Item"
+                ],
+                "summary": "List transaction items",
+                "description": "Display a listing of the resource.",
+                "operationId": "e72382d95a06ff986b7ba53d4fd709fc",
+                "responses": {
+                    "200": {
+                        "description": "List of transaction items",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Resources retrieved successfully"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "string",
+                                                        "example": "845852226109969182"
+                                                    },
+                                                    "product_id": {
+                                                        "type": "string",
+                                                        "example": "845852226109969182"
+                                                    },
+                                                    "quantity": {
+                                                        "type": "integer",
+                                                        "example": 3
+                                                    },
+                                                    "source_type": {
+                                                        "type": "string",
+                                                        "example": null
+                                                    },
+                                                    "source_id": {
+                                                        "type": "string",
+                                                        "example": null
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2025-12-28T10:42:53.000000Z"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2025-12-28T10:42:53.000000Z"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/api/v1/units": {
             "get": {
                 "tags": [
@@ -4854,6 +4945,10 @@
         {
             "name": "Transaction",
             "description": "Transaction"
+        },
+        {
+            "name": "Transaction Item",
+            "description": "Transaction Item"
         },
         {
             "name": "Unit",
