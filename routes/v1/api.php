@@ -24,5 +24,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::apiResource("packages", PackageController::class);
     Route::apiResource("package-items", PackageItemController::class)->except('show');
     Route::apiResource("transactions", TransactionController::class);
-    Route::apiResource("transaction-items", TransactionItemController::class);
+    Route::prefix('transactions/{transaction}')->group(function () {
+        Route::apiResource("items", TransactionItemController::class);
+    });
 });

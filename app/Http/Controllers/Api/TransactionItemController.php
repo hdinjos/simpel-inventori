@@ -4,8 +4,13 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\TransactionItem;
+use App\Models\Transaction;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Http\Requests\TransactionItem\StoreTransactionItemRequest;
+use App\Http\Requests\TransactionItem\UpdateTransactionItemRequest;
+use App\Enums\TransactionStatus;
 use OpenApi\Attributes as OA;
 
 
@@ -17,10 +22,13 @@ class TransactionItemController extends Controller
      * Display a listing of the resource.
      */
     #[OA\Get(
-        path: '/api/v1/transaction-items',
+        path: '/api/v1/transactions/{id}/items',
         security: [['sanctum' => []]],
         summary: 'List transaction items',
         tags: ['Transaction Item'],
+        parameters: [
+            new OA\Parameter(name: 'id', in: 'path', required: true, schema: new OA\Schema(type: 'string'), example: '845852226109969182')
+        ],
         responses: [
             new OA\Response(
                 response: 200,
@@ -35,7 +43,8 @@ class TransactionItemController extends Controller
                             items: new OA\Items(
                                 properties: [
                                     new OA\Property(property: 'id', type: 'string', example: '845852226109969182'),
-                                    new OA\Property(property: 'product_id', type: 'string', example: '845852226109969182'),
+                                    new OA\Property(property: 'product_id', type: 'string', example: '850941977284448529'),
+                                    new OA\Property(property: 'tranction_id', type: 'string', example: '850942152736382104'),
                                     new OA\Property(property: 'quantity', type: 'integer', example: 3),
                                     new OA\Property(property: 'source_type', type: 'string', example: null),
                                     new OA\Property(property: 'source_id', type: 'string', example: null),
@@ -58,18 +67,22 @@ class TransactionItemController extends Controller
             )
         ]
     )]
-    public function index()
+    public function index(Transaction $transaction)
     {
-        $transactionItems = TransactionItem::get();
-        return $this->success($transactionItems);
+        $trxItem =  $transaction->items()->get();
+        return $this->success($trxItem);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreTransactionItemRequest $request, Transaction $transaction)
     {
-        //
+        if ($transaction->status != TransactionStatus::DRAFT->value) {
+            return $this->conflict('Transaction already finished and cannot be updated');
+        }
+        $transactionItem = $transaction->items()->create($request->validated());
+        return $this->created($transactionItem);
     }
 
     /**

@@ -54,4 +54,9 @@ class Transaction extends Model
     {
         return $this->belongsTo(Partner::class);
     }
+
+    public function items()
+    {
+        return $this->hasMany(TransactionItem::class);
+    }
 }

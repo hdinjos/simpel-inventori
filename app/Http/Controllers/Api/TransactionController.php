@@ -327,9 +327,8 @@ class TransactionController extends Controller
             )
         ]
     )]
-    public function update(Request $request, string $id)
+    public function update(Request $request, Transaction $transaction)
     {
-        $transaction = Transaction::findOrFail($id);
         $transaction->update([
             'status' => TransactionStatus::FINISHED->value
         ]);

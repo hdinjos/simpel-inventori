@@ -5,6 +5,7 @@ use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Illuminate\Validation\ValidationException;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -18,6 +19,7 @@ return Application::configure(basePath: dirname(__DIR__))
         //
     })
     ->withExceptions(function (Exceptions $exceptions): void {
+        // 1. Error Not Found (404)
         $exceptions->render(function (
             NotFoundHttpException $e,
             $request
@@ -27,6 +29,17 @@ return Application::configure(basePath: dirname(__DIR__))
                     'success' => false,
                     'message' => 'Data not found',
                 ], Response::HTTP_NOT_FOUND);
+            }
+        });
+
+        // 2. Error Validation (422)
+        $exceptions->render(function (ValidationException $e, $request) {
+            if ($request->is('api/*')) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Validation errors',
+                    'errors'  => $e->errors(),
+                ], 422);
             }
         });
     })->create();

@@ -27,7 +27,7 @@ trait ApiResponse
         return $this->success($data, $message, 201);
     }
 
-     /**
+    /**
      * Respon sukses update (200)
      */
     public function successUpdated($data = null, string $message = 'Resource updated successfully', int $code = 200): JsonResponse
@@ -40,10 +40,10 @@ trait ApiResponse
     }
 
 
-     /**
+    /**
      * Respon sukses update (200)
      */
-    public function successDeleted( string $message = 'Resource deleted successfully', int $code = 200): JsonResponse
+    public function successDeleted(string $message = 'Resource deleted successfully', int $code = 200): JsonResponse
     {
         return response()->json([
             'status'  => 'success',
@@ -118,5 +118,13 @@ trait ApiResponse
     public function forbidden(string $message = 'Forbidden access'): JsonResponse
     {
         return $this->error($message, 403);
+    }
+
+    /**
+     * Respon Conflict (409)
+     */
+    public function conflict(string $message = 'Conflict'): JsonResponse
+    {
+        return $this->error($message, 409);
     }
 }

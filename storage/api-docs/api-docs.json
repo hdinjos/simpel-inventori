@@ -4303,14 +4303,25 @@
                 ]
             }
         },
-        "/api/v1/transaction-items": {
+        "/api/v1/transactions/{id}/items": {
             "get": {
                 "tags": [
                     "Transaction Item"
                 ],
                 "summary": "List transaction items",
                 "description": "Display a listing of the resource.",
-                "operationId": "e72382d95a06ff986b7ba53d4fd709fc",
+                "operationId": "f40d98d95c9c1bd6808d79860cd56407",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "845852226109969182"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "List of transaction items",
@@ -4336,7 +4347,11 @@
                                                     },
                                                     "product_id": {
                                                         "type": "string",
-                                                        "example": "845852226109969182"
+                                                        "example": "850941977284448529"
+                                                    },
+                                                    "tranction_id": {
+                                                        "type": "string",
+                                                        "example": "850942152736382104"
                                                     },
                                                     "quantity": {
                                                         "type": "integer",
