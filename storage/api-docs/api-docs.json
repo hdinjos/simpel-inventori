@@ -4374,10 +4374,485 @@
                                                         "type": "string",
                                                         "format": "date-time",
                                                         "example": "2025-12-28T10:42:53.000000Z"
+                                                    },
+                                                    "product": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "string",
+                                                                "example": "845852226109969182"
+                                                            },
+                                                            "code": {
+                                                                "type": "string",
+                                                                "example": "PRD-00000001"
+                                                            },
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "Product A"
+                                                            },
+                                                            "description": {
+                                                                "type": "string",
+                                                                "example": "Product description"
+                                                            },
+                                                            "product_category_id": {
+                                                                "type": "string",
+                                                                "example": "845852226109969182"
+                                                            },
+                                                            "unit_id": {
+                                                                "type": "string",
+                                                                "example": "845852226109969182"
+                                                            }
+                                                        },
+                                                        "type": "object"
                                                     }
                                                 },
                                                 "type": "object"
                                             }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Transaction Item"
+                ],
+                "summary": "Create a transaction items",
+                "description": "Store a newly created resource in storage.",
+                "operationId": "eb80bd97b567faa6233ebd7b8d649322",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "845852226109969182"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "product_id",
+                                    "quantity"
+                                ],
+                                "properties": {
+                                    "product_id": {
+                                        "type": "string",
+                                        "example": "845852226109969182"
+                                    },
+                                    "quantity": {
+                                        "type": "integer",
+                                        "example": 8
+                                    },
+                                    "source_type": {
+                                        "type": "string",
+                                        "example": "single"
+                                    },
+                                    "source_id": {
+                                        "type": "string",
+                                        "example": "845852226109969182"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "transaction item created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Resource created successfully"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "string",
+                                                    "example": "845852226109969182"
+                                                },
+                                                "product_id": {
+                                                    "type": "string",
+                                                    "example": "850941977284448529"
+                                                },
+                                                "tranction_id": {
+                                                    "type": "string",
+                                                    "example": "850942152736382104"
+                                                },
+                                                "quantity": {
+                                                    "type": "integer",
+                                                    "example": 3
+                                                },
+                                                "source_type": {
+                                                    "type": "string",
+                                                    "example": null
+                                                },
+                                                "source_id": {
+                                                    "type": "string",
+                                                    "example": null
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2025-12-28T10:42:53.000000Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2025-12-28T10:42:53.000000Z"
+                                                },
+                                                "product": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "string",
+                                                            "example": "845852226109969182"
+                                                        },
+                                                        "code": {
+                                                            "type": "string",
+                                                            "example": "PRD-00000001"
+                                                        },
+                                                        "name": {
+                                                            "type": "string",
+                                                            "example": "Product A"
+                                                        },
+                                                        "description": {
+                                                            "type": "string",
+                                                            "example": "Product description"
+                                                        },
+                                                        "product_category_id": {
+                                                            "type": "string",
+                                                            "example": "845852226109969182"
+                                                        },
+                                                        "unit_id": {
+                                                            "type": "string",
+                                                            "example": "845852226109969182"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/transactions/{id}/items/{itemId}": {
+            "put": {
+                "tags": [
+                    "Transaction Item"
+                ],
+                "summary": "Update a transaction item",
+                "description": "Update the specified resource in storage.",
+                "operationId": "9eadd32909154cadc02becccce1621bb",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "845852226109969182"
+                    },
+                    {
+                        "name": "itemId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "845852226109969182"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "product_id",
+                                    "quantity"
+                                ],
+                                "properties": {
+                                    "product_id": {
+                                        "type": "string",
+                                        "example": "845852226109969182"
+                                    },
+                                    "quantity": {
+                                        "type": "integer",
+                                        "example": 8
+                                    },
+                                    "source_type": {
+                                        "type": "string",
+                                        "example": "single"
+                                    },
+                                    "source_id": {
+                                        "type": "string",
+                                        "example": "845852226109969182"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Transaction item updated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Resource updated successfully"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "string",
+                                                    "example": "845852226109969182"
+                                                },
+                                                "product_id": {
+                                                    "type": "string",
+                                                    "example": "850941977284448529"
+                                                },
+                                                "tranction_id": {
+                                                    "type": "string",
+                                                    "example": "850942152736382104"
+                                                },
+                                                "quantity": {
+                                                    "type": "integer",
+                                                    "example": 3
+                                                },
+                                                "source_type": {
+                                                    "type": "string",
+                                                    "example": null
+                                                },
+                                                "source_id": {
+                                                    "type": "string",
+                                                    "example": null
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2025-12-28T10:42:53.000000Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2025-12-28T10:42:53.000000Z"
+                                                },
+                                                "product": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "string",
+                                                            "example": "845852226109969182"
+                                                        },
+                                                        "code": {
+                                                            "type": "string",
+                                                            "example": "PRD-00000001"
+                                                        },
+                                                        "name": {
+                                                            "type": "string",
+                                                            "example": "Product A"
+                                                        },
+                                                        "description": {
+                                                            "type": "string",
+                                                            "example": "Product description"
+                                                        },
+                                                        "product_category_id": {
+                                                            "type": "string",
+                                                            "example": "845852226109969182"
+                                                        },
+                                                        "unit_id": {
+                                                            "type": "string",
+                                                            "example": "845852226109969182"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Data not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Data not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Transaction Item"
+                ],
+                "summary": "Delete a product",
+                "description": "Remove the specified resource from storage.",
+                "operationId": "4e5f181cd34cf502324823a6308943b4",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "845852226109969182"
+                    },
+                    {
+                        "name": "itemId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "845852226109969182"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Transaction Item deleted",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Resource deleted successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Data not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Data not found"
                                         }
                                     },
                                     "type": "object"

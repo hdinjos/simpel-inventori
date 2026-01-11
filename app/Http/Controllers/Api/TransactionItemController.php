@@ -6,11 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Models\TransactionItem;
 use App\Models\Transaction;
 use App\Traits\ApiResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use App\Http\Requests\TransactionItem\StoreTransactionItemRequest;
 use App\Http\Requests\TransactionItem\UpdateTransactionItemRequest;
 use App\Enums\TransactionStatus;
+use App\Models\Product;
 use OpenApi\Attributes as OA;
 
 
@@ -90,18 +89,20 @@ class TransactionItemController extends Controller
      */
 
     #[OA\Post(
-        path: '/api/v1/transactions/${id}/items',
+        path: '/api/v1/transactions/{id}/items',
         security: [['sanctum' => []]],
         summary: 'Create a transaction items',
         tags: ['Transaction Item'],
+        parameters: [
+            new OA\Parameter(name: 'id', in: 'path', required: true, schema: new OA\Schema(type: 'string'), example: '845852226109969182')
+        ],
         requestBody: new OA\RequestBody(
             required: true,
             content: new OA\JsonContent(
-                required: ['transaction_id', 'product_id', 'quantity'],
+                required: ['product_id', 'quantity'],
                 properties: [
-                    new OA\Property(property: 'transaction_id', type: 'string', example: '845852226109969182'),
                     new OA\Property(property: 'product_id', type: 'string', example: '845852226109969182'),
-                    new OA\Property(property: 'quantity', type: 'string', example: 8),
+                    new OA\Property(property: 'quantity', type: 'integer', example: 8),
                     new OA\Property(property: 'source_type', type: 'string', example: 'single'),
                     new OA\Property(property: 'source_id', type: 'string', example: '845852226109969182'),
                 ]
@@ -157,9 +158,11 @@ class TransactionItemController extends Controller
     )]
     public function store(StoreTransactionItemRequest $request, Transaction $transaction)
     {
-        if ($transaction->status != TransactionStatus::DRAFT->value) {
+        if ($transaction->status !== TransactionStatus::DRAFT) {
             return $this->conflict('Transaction already finished and cannot be updated');
         }
+        Product::findOrFail($request['product_id']);
+
         $transactionItem = $transaction->items()->create($request->validated());
         $transactionItem->load(['product']);
         return $this->created($transactionItem);
@@ -191,7 +194,7 @@ class TransactionItemController extends Controller
                 required: ['product_id', 'quantity'],
                 properties: [
                     new OA\Property(property: 'product_id', type: 'string', example: '845852226109969182'),
-                    new OA\Property(property: 'quantity', type: 'string', example: 8),
+                    new OA\Property(property: 'quantity', type: 'integer', example: 8),
                     new OA\Property(property: 'source_type', type: 'string', example: 'single'),
                     new OA\Property(property: 'source_id', type: 'string', example: '845852226109969182'),
                 ]
@@ -255,11 +258,18 @@ class TransactionItemController extends Controller
             )
         ]
     )]
-    public function update(UpdateTransactionItemRequest $request, TransactionItem $transactionItem)
+    public function update(UpdateTransactionItemRequest $request, Transaction $transaction, TransactionItem $item)
     {
-        $transactionItem->update($request->validated());
-        $transactionItem->load('product');
-        return $this->successUpdated($transactionItem);
+        if ($transaction->status !== TransactionStatus::DRAFT) {
+            return $this->conflict('Transaction already finished and cannot be updated');
+        }
+        if ($transaction->id !== $item->transaction_id) {
+            return $this->validationError('Item does not belong to this transaction');
+        }
+        Product::findOrFail($request['product_id']);
+        $item->update($request->validated());
+        $item->load('product');
+        return $this->successUpdated($item);
     }
 
     /**
@@ -306,9 +316,15 @@ class TransactionItemController extends Controller
             )
         ]
     )]
-    public function destroy(TransactionItem $transactionItem)
+    public function destroy(Transaction $transaction, TransactionItem $item)
     {
-        $transactionItem->delete();
-        return $this->successDeleted($transactionItem);
+        if ($transaction->status !== TransactionStatus::DRAFT) {
+            return $this->conflict('Transaction already finished and cannot be updated');
+        }
+        if ($transaction->id !== $item->transaction_id) {
+            return $this->validationError('Item does not belong to this transaction');
+        }
+        $item->delete();
+        return $this->successDeleted();
     }
 }

@@ -35,6 +35,7 @@ class TransactionItem extends Model
     ];
 
     protected $casts = [
+        'transaction_id' => 'string',
         'product_id' => 'string',
         'source_id' => 'string'
     ];

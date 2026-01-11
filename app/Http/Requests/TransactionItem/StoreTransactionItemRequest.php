@@ -22,7 +22,6 @@ class StoreTransactionItemRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'transaction_id' => 'required|string',
             'product_id' => 'required|string',
             'quantity' => 'required|integer',
             'source_type' => 'nullable|string',
