@@ -55,7 +55,7 @@ trait ApiResponse
     /**
      * Respon sukses dengan paginasi
      */
-    public function succesPaginate(LengthAwarePaginator $paginator, string $message = 'Resources retrieved successfully'): JsonResponse
+    public function successPaginate(LengthAwarePaginator $paginator, string $message = 'Resources retrieved successfully'): JsonResponse
     {
         return response()->json([
             'status'  => 'success',

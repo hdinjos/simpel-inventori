@@ -2551,6 +2551,9 @@
                     },
                     {
                         "$ref": "#/components/parameters/PaginationLimit"
+                    },
+                    {
+                        "$ref": "#/components/parameters/SearchQuery"
                     }
                 ],
                 "responses": {
@@ -5478,6 +5481,17 @@
                     "type": "integer",
                     "minimum": 1,
                     "example": 10
+                }
+            },
+            "SearchQuery": {
+                "name": "search",
+                "in": "query",
+                "description": "Search query string",
+                "required": false,
+                "schema": {
+                    "type": "string",
+                    "minimum": 1,
+                    "example": "Electronics"
                 }
             }
         },

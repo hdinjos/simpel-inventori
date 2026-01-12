@@ -23,7 +23,8 @@ class ProductCategoryController extends Controller
         tags: ['Product Category'],
         parameters: [
             new OA\Parameter(ref: '#/components/parameters/PaginationPage'),
-            new OA\Parameter(ref: '#/components/parameters/PaginationLimit')
+            new OA\Parameter(ref: '#/components/parameters/PaginationLimit'),
+            new OA\Parameter(ref: '#/components/parameters/SearchQuery')
         ],
         responses: [
             new OA\Response(
@@ -71,8 +72,11 @@ class ProductCategoryController extends Controller
     public function index(Request $request)
     {
         $limit = $request->query('limit', 10);
-        $productCategories = ProductCategory::paginate($limit);
-        return $this->succesPaginate($productCategories);
+        $search = $request->query('search');
+
+        $productCategories = ProductCategory::search($search)
+            ->paginate($limit);
+        return $this->successPaginate($productCategories);
     }
 
     /**

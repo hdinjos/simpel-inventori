@@ -36,6 +36,18 @@ use OpenApi\Attributes as OA;
         minimum: 1
     )
 )]
+#[OA\Parameter(
+    parameter: 'SearchQuery',
+    name: 'search',
+    in: 'query',
+    description: 'Search query string',
+    required: false,
+    schema: new OA\Schema(
+        type: 'string',
+        example: 'Electronics',
+        minimum: 1
+    )
+)]
 abstract class Controller
 {
     //

@@ -4,11 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\HasSnowflakeId;
+use App\Traits\Searchable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ProductCategory extends Model
 {
-    use HasSnowflakeId, SoftDeletes;
+    use HasSnowflakeId, SoftDeletes, Searchable;
 
     public $incrementing = false;
     protected $keyType = 'int';
@@ -26,6 +27,17 @@ class ProductCategory extends Model
      * @var list<string>
      */
     protected $fillable = [
+        'name',
+        'description',
+    ];
+
+    /**
+     * The attributes that are searchable.
+     *
+     * @var list<string>
+     */
+    protected $searchable = [
+        'id',
         'name',
         'description',
     ];
