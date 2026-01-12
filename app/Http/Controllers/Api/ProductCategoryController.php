@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\ProductCategory;
 use App\Traits\ApiResponse;
 use App\Http\Requests\ProductCategory\StoreProductCategoryRequest;
+use Illuminate\Http\Request;
 use OpenApi\Attributes as OA;
 
 class ProductCategoryController extends Controller
@@ -20,6 +21,10 @@ class ProductCategoryController extends Controller
         security: [['sanctum' => []]],
         summary: 'List product categories',
         tags: ['Product Category'],
+        parameters: [
+            new OA\Parameter(ref: '#/components/parameters/PaginationPage'),
+            new OA\Parameter(ref: '#/components/parameters/PaginationLimit')
+        ],
         responses: [
             new OA\Response(
                 response: 200,
@@ -41,6 +46,14 @@ class ProductCategoryController extends Controller
                                 ]
                             )
                         ),
+                        new OA\Property(
+                            property: 'meta',
+                            ref: '#/components/schemas/PaginationMeta'
+                        ),
+                        new OA\Property(
+                            property: 'links',
+                            ref: '#/components/schemas/PaginationLinks'
+                        )
                     ]
                 )
             ),
@@ -55,10 +68,11 @@ class ProductCategoryController extends Controller
             ),
         ]
     )]
-    public function index()
+    public function index(Request $request)
     {
-        $productCategories = ProductCategory::get();
-        return $this->success($productCategories);
+        $limit = $request->query('limit', 10);
+        $productCategories = ProductCategory::paginate($limit);
+        return $this->succesPaginate($productCategories);
     }
 
     /**

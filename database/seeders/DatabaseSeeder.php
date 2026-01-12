@@ -6,6 +6,7 @@ use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
+
 class DatabaseSeeder extends Seeder
 {
     // use WithoutModelEvents;
@@ -21,5 +22,9 @@ class DatabaseSeeder extends Seeder
             'name' => 'Ngadmin',
             'email' => 'ngadmin@example.com',
         ]);
+
+        $this->call(ProductCategorySeeder::class);
+        $this->call(UnitSeeder::class);
+        $this->call(PartnerTypeSeeder::class);
     }
 }

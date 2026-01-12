@@ -55,18 +55,24 @@ trait ApiResponse
     /**
      * Respon sukses dengan paginasi
      */
-    public function paginate(LengthAwarePaginator $paginator, string $message = 'Resources retrieved successfully'): JsonResponse
+    public function succesPaginate(LengthAwarePaginator $paginator, string $message = 'Resources retrieved successfully'): JsonResponse
     {
         return response()->json([
             'status'  => 'success',
             'message' => $message,
-            'data'    => $paginator->items(),
-            'meta'    => [
+            'data' => $paginator->items(),
+            'meta' => [
                 'current_page' => $paginator->currentPage(),
-                'last_page'    => $paginator->lastPage(),
                 'per_page'     => $paginator->perPage(),
                 'total'        => $paginator->total(),
+                'last_page'    => $paginator->lastPage(),
             ],
+            'links' => [
+                'first' => $paginator->url(1),
+                'last' => $paginator->url($paginator->lastPage()),
+                'next' => $paginator->nextPageUrl(),
+                'prev' => $paginator->previousPageUrl(),
+            ]
         ], 200);
     }
 

@@ -12,6 +12,30 @@ use OpenApi\Attributes as OA;
     scheme: 'bearer',
     bearerFormat: 'JWT'
 )]
+#[OA\Parameter(
+    parameter: 'PaginationPage',
+    name: 'page',
+    in: 'query',
+    description: 'Page number',
+    required: false,
+    schema: new OA\Schema(
+        type: 'integer',
+        example: 1,
+        minimum: 1
+    )
+)]
+#[OA\Parameter(
+    parameter: 'PaginationLimit',
+    name: 'limit',
+    in: 'query',
+    description: 'Number of items per page',
+    required: false,
+    schema: new OA\Schema(
+        type: 'integer',
+        example: 10,
+        minimum: 1
+    )
+)]
 abstract class Controller
 {
     //
