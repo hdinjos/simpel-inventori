@@ -6,6 +6,7 @@ use App\Traits\HasSnowflakeId;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Enums\TransactionStatus;
+use App\Enums\TransactionType;
 
 class Transaction extends Model
 {
@@ -37,6 +38,7 @@ class Transaction extends Model
 
     protected $casts = [
         'status' => TransactionStatus::class,
+        'type' => TransactionType::class,
         'user_id' => 'string',
         'partner_id' => 'string'
     ];

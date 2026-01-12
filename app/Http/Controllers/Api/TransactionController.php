@@ -9,7 +9,9 @@ use Illuminate\Http\Request;
 use App\Http\Requests\Transaction\StoreTransactionRequest;
 use Carbon\Carbon;
 use App\Enums\TransactionStatus;
-
+use App\Enums\TransactionType;
+use App\Models\Product;
+use Illuminate\Support\Facades\DB;
 use OpenApi\Attributes as OA;
 
 
@@ -329,10 +331,60 @@ class TransactionController extends Controller
     )]
     public function update(Request $request, Transaction $transaction)
     {
-        $transaction->update([
-            'status' => TransactionStatus::FINISHED->value
-        ]);
-        return $this->successUpdated($transaction);
+        DB::beginTransaction();
+
+        try {
+            $items = $transaction->items;
+
+            if ($transaction->type === TransactionType::IN) {
+
+                foreach ($items as $item) {
+                    $stock = $item->product->stock()->lockForUpdate()->first();
+
+                    $stock->update([
+                        'quantity' => $stock->quantity + $item->quantity
+                    ]);
+                }
+            } elseif ($transaction->type === TransactionType::OUT) {
+
+                foreach ($items as $item) {
+                    $stock = $item->product->stock()->lockForUpdate()->first();
+
+                    $qtyAfter = $stock->quantity - $item->quantity;
+
+                    if ($qtyAfter <= 0) {
+                        DB::rollBack();
+                        return $this->error(
+                            'Stok produk "' . $item->product->name . '" tidak mencukupi',
+                            422
+                        );
+                    }
+
+                    $stock->update([
+                        'quantity' => $qtyAfter
+                    ]);
+                }
+            } else {
+                DB::rollBack();
+                return $this->error('Tipe Transaksi not available', 400);
+            }
+
+            $transaction->update([
+                'status' => TransactionStatus::FINISHED->value
+            ]);
+
+            DB::commit();
+
+            return $this->successUpdated($transaction);
+        } catch (\Throwable $e) {
+            DB::rollBack();
+
+            return $this->error(
+                'Terjadi kesalahan saat memproses transaksi',
+                500,
+                $e->getMessage()
+            );
+        }
     }
 
     /**

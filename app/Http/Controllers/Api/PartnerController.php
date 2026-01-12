@@ -7,6 +7,7 @@ use App\Traits\ApiResponse;
 use App\Models\Partner;
 use App\Http\Requests\Partner\StorePartnerRequest;
 use App\Http\Requests\Partner\UpdatePartnerRequest;
+use App\Models\PartnerType;
 use OpenApi\Attributes as OA;
 
 class PartnerController extends Controller
@@ -140,6 +141,7 @@ class PartnerController extends Controller
     public function store(StorePartnerRequest $request)
     {
         $validated = $request->validated();
+        PartnerType::findOrFail($validated['partner_type_id']);
 
         $partner = Partner::create($validated);
         $partner->load('partnerType');
