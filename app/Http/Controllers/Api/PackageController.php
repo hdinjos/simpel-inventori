@@ -24,6 +24,11 @@ class PackageController extends Controller
         security: [['sanctum' => []]],
         summary: 'List packages',
         tags: ['Package'],
+        parameters: [
+            new OA\Parameter(ref: '#/components/parameters/PaginationPage'),
+            new OA\Parameter(ref: '#/components/parameters/PaginationLimit'),
+            new OA\Parameter(ref: '#/components/parameters/SearchQuery')
+        ],
         responses: [
             new OA\Response(
                 response: 200,
@@ -47,6 +52,14 @@ class PackageController extends Controller
                                 ]
                             )
                         ),
+                        new OA\Property(
+                            property: 'meta',
+                            ref: '#/components/schemas/PaginationMeta'
+                        ),
+                        new OA\Property(
+                            property: 'links',
+                            ref: '#/components/schemas/PaginationLinks'
+                        )
                     ]
                 )
             ),
@@ -61,10 +74,14 @@ class PackageController extends Controller
             )
         ]
     )]
-    public function index()
+    public function index(Request $request)
     {
-        $packages = Package::get();
-        return $this->success($packages);
+        $limit = $request->query('limit', 10);
+        $search = $request->query('search');
+
+        $packages = Package::search($search)
+            ->paginate($limit);
+        return $this->successPaginate($packages);
     }
 
     /**
@@ -191,10 +208,8 @@ class PackageController extends Controller
             )
         ]
     )]
-    public function show(string $id)
+    public function show(Package $package)
     {
-        $package = Package::findOrFail($id);
-
         return $this->success($package);
     }
 

@@ -22,7 +22,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::apiResource("partners", PartnerController::class);
     Route::apiResource("products", ProductController::class);
     Route::apiResource("packages", PackageController::class);
-    Route::apiResource("package-items", PackageItemController::class)->except('show');
+    Route::prefix('packages/{package}')->group(function () {
+        Route::apiResource("items", PackageItemController::class)->except('show');
+    });
+    // Route::apiResource("package-items", PackageItemController::class)->except('show');
     Route::apiResource("transactions", TransactionController::class);
     Route::prefix('transactions/{transaction}')->group(function () {
         Route::apiResource("items", TransactionItemController::class);

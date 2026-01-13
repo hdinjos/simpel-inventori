@@ -217,6 +217,17 @@
                 "summary": "List packages",
                 "description": "Display a listing of the resource.",
                 "operationId": "c84b73b713dc339aec65c52bfa9e98f0",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/PaginationPage"
+                    },
+                    {
+                        "$ref": "#/components/parameters/PaginationLimit"
+                    },
+                    {
+                        "$ref": "#/components/parameters/SearchQuery"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "List of packages",
@@ -269,6 +280,12 @@
                                                 },
                                                 "type": "object"
                                             }
+                                        },
+                                        "meta": {
+                                            "$ref": "#/components/schemas/PaginationMeta"
+                                        },
+                                        "links": {
+                                            "$ref": "#/components/schemas/PaginationLinks"
                                         }
                                     },
                                     "type": "object"
