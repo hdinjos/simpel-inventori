@@ -281,10 +281,9 @@ class PackageController extends Controller
             ),
         ]
     )]
-    public function update(UpdatePackageRequest $request, string $id)
+    public function update(UpdatePackageRequest $request, Package $package)
     {
         $validated = $request->validated();
-        $package = Package::findOrFail($id);
 
         $package->update($validated);
 
@@ -335,9 +334,8 @@ class PackageController extends Controller
             ),
         ]
     )]
-    public function destroy(string $id)
+    public function destroy(Package $package)
     {
-        $package = Package::findOrFail($id);
         $package->delete();
         return $this->successDeleted();
     }

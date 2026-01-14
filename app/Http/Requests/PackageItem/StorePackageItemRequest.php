@@ -3,8 +3,6 @@
 namespace App\Http\Requests\PackageItem;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Contracts\Validation\Validator;
-use Illuminate\Http\Exceptions\HttpResponseException;
 
 class StorePackageItemRequest extends FormRequest
 {
@@ -25,17 +23,7 @@ class StorePackageItemRequest extends FormRequest
     {
         return [
             'quantity' => 'required|integer',
-            'package_id' => 'required|string',
             'product_id' => 'required|string',
         ];
-    }
-
-    protected function failedValidation(Validator $validator)
-    {
-        throw new HttpResponseException(response()->json([
-            'success' => false,
-            'message' => 'Validation errors',
-            'errors' => $validator->errors()
-        ], 422));
     }
 }

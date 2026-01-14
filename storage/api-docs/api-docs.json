@@ -771,14 +771,25 @@
                 ]
             }
         },
-        "/api/v1/package-items": {
+        "/api/v1/packages/{packageId}/items": {
             "get": {
                 "tags": [
                     "Package Item"
                 ],
                 "summary": "List package items",
                 "description": "Display a listing of the resource.",
-                "operationId": "25ddcbf49d9f109e17f16c53163b3b0a",
+                "operationId": "da92d53ae088680714b3bfedfd8dd579",
+                "parameters": [
+                    {
+                        "name": "packageId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "845852226109969182"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "List of package items",
@@ -937,7 +948,18 @@
                 ],
                 "summary": "Create a package items",
                 "description": "Store a newly created resource in storage.",
-                "operationId": "ae6dc4b910456ef7f3f5abfb1d86ad70",
+                "operationId": "612acb1d5746cf4f99a1cf83c3a1d124",
+                "parameters": [
+                    {
+                        "name": "packageId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "845852226109969182"
+                    }
+                ],
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -952,10 +974,6 @@
                                     "quantity": {
                                         "type": "integer",
                                         "example": 5
-                                    },
-                                    "package_id": {
-                                        "type": "string",
-                                        "example": "845852226109969182"
                                     },
                                     "product_id": {
                                         "type": "string",
@@ -1117,17 +1135,26 @@
                 ]
             }
         },
-        "/api/v1/package-items/{id}": {
+        "/api/v1/packages/{packageId}/items/{itemId}": {
             "put": {
                 "tags": [
                     "Package Item"
                 ],
                 "summary": "Update a package item",
                 "description": "Update the specified resource in storage.",
-                "operationId": "4a852a72fed4110b31834f5b8c88b1a0",
+                "operationId": "5478b6ded19460199d8391a9e58fd02f",
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "packageId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "845852226109969182"
+                    },
+                    {
+                        "name": "itemId",
                         "in": "path",
                         "required": true,
                         "schema": {
@@ -1328,7 +1355,9 @@
                         "sanctum": []
                     }
                 ]
-            },
+            }
+        },
+        "/api/v1/package-items/{id}": {
             "delete": {
                 "tags": [
                     "Package Item"

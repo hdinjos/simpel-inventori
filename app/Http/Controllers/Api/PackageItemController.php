@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
 use App\Models\PackageItem;
+use App\Models\Package;
+use App\Models\Product;
 use App\Http\Requests\PackageItem\StorePackageItemRequest;
 use App\Http\Requests\PackageItem\UpdatePackageItemRequest;
 use OpenApi\Attributes as OA;
@@ -21,10 +23,13 @@ class PackageItemController extends Controller
 
 
     #[OA\Get(
-        path: '/api/v1/package-items',
+        path: '/api/v1/packages/{packageId}/items',
         security: [['sanctum' => []]],
         summary: 'List package items',
         tags: ['Package Item'],
+        parameters: [
+            new OA\Parameter(name: 'packageId', in: 'path', required: true, schema: new OA\Schema(type: 'string'), example: '845852226109969182')
+        ],
         responses: [
             new OA\Response(
                 response: 200,
@@ -88,9 +93,9 @@ class PackageItemController extends Controller
             )
         ]
     )]
-    public function index()
+    public function index(Package $package)
     {
-        $packageItems = PackageItem::with('package', 'product')->get();
+        $packageItems = $package->packageItems()->with('package', 'product')->get();
         return $this->success($packageItems);
     }
 
@@ -99,17 +104,19 @@ class PackageItemController extends Controller
      */
 
     #[OA\Post(
-        path: '/api/v1/package-items',
+        path: '/api/v1/packages/{packageId}/items',
         security: [['sanctum' => []]],
         summary: 'Create a package items',
         tags: ['Package Item'],
+        parameters: [
+            new OA\Parameter(name: 'packageId', in: 'path', required: true, schema: new OA\Schema(type: 'string'), example: '845852226109969182')
+        ],
         requestBody: new OA\RequestBody(
             required: true,
             content: new OA\JsonContent(
                 required: ['quantity', 'package_id', 'product_id'],
                 properties: [
                     new OA\Property(property: 'quantity', type: 'integer', example: 5),
-                    new OA\Property(property: 'package_id', type: 'string', example: '845852226109969182'),
                     new OA\Property(property: 'product_id', type: 'string', example: '845852226109969182'),
                 ]
             )
@@ -175,10 +182,12 @@ class PackageItemController extends Controller
             )
         ]
     )]
-    public function store(StorePackageItemRequest $request)
+    public function store(Package $package, StorePackageItemRequest $request)
     {
         $validated = $request->validated();
-        $packageItem = PackageItem::create($validated);
+        Product::findOrFail($validated['product_id']);
+
+        $packageItem = $package->packageItems()->create($validated);
         $packageItem->load(['package', 'product']);
 
         return $this->created($packageItem);
@@ -196,12 +205,13 @@ class PackageItemController extends Controller
      * Update the specified resource in storage.
      */
     #[OA\Put(
-        path: '/api/v1/package-items/{id}',
+        path: '/api/v1/packages/{packageId}/items/{itemId}',
         security: [['sanctum' => []]],
         summary: 'Update a package item',
         tags: ['Package Item'],
         parameters: [
-            new OA\Parameter(name: 'id', in: 'path', required: true, schema: new OA\Schema(type: 'string'), example: '845852226109969182')
+            new OA\Parameter(name: 'packageId', in: 'path', required: true, schema: new OA\Schema(type: 'string'), example: '845852226109969182'),
+            new OA\Parameter(name: 'itemId', in: 'path', required: true, schema: new OA\Schema(type: 'string'), example: '845852226109969182')
         ],
         requestBody: new OA\RequestBody(
             required: true,
@@ -284,10 +294,12 @@ class PackageItemController extends Controller
             )
         ]
     )]
-    public function update(UpdatePackageItemRequest $request, string $id)
+    public function update(Package $package, UpdatePackageItemRequest $request)
     {
         $validated = $request->validated();
-        $packageItem =  PackageItem::findOrFail($id);
+        Product::findOrFail($validated['product_id']);
+
+        $packageItem = $package->packageItems();
         $packageItem->update($validated);
         $packageItem->load(['package', 'product']);
 
