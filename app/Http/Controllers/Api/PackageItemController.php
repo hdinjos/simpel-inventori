@@ -297,6 +297,10 @@ class PackageItemController extends Controller
     public function update(Package $package, PackageItem $item, UpdatePackageItemRequest $request)
     {
         $validated = $request->validated();
+
+        if ($item->package_id !== $package->id) {
+            return $this->validationError('Items does not belong to the package.');
+        }
         Product::findOrFail($validated['product_id']);
 
         $item->update(array_merge($validated, ['package_id' => $package->id]));
@@ -352,7 +356,7 @@ class PackageItemController extends Controller
     public function destroy(Package $package, PackageItem $item)
     {
         if ($item->package_id !== $package->id) {
-            return $this->notFound();
+            return $this->validationError('Items does not belong to the package.');
         }
         $item->delete();
         return $this->successDeleted();
