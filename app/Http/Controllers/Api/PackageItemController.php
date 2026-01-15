@@ -294,28 +294,28 @@ class PackageItemController extends Controller
             )
         ]
     )]
-    public function update(Package $package, UpdatePackageItemRequest $request)
+    public function update(Package $package, PackageItem $item, UpdatePackageItemRequest $request)
     {
         $validated = $request->validated();
         Product::findOrFail($validated['product_id']);
 
-        $packageItem = $package->packageItems();
-        $packageItem->update($validated);
-        $packageItem->load(['package', 'product']);
+        $item->update(array_merge($validated, ['package_id' => $package->id]));
+        $item->load(['package', 'product']);
 
-        return $this->successUpdated($packageItem);
+        return $this->successUpdated($item);
     }
 
     /**
      * Remove the specified resource from storage.
      */
     #[OA\Delete(
-        path: '/api/v1/package-items/{id}',
+        path: '/api/v1/packages/{packageId}/items/{itemId}',
         security: [['sanctum' => []]],
         summary: 'Delete a package item',
         tags: ['Package Item'],
         parameters: [
-            new OA\Parameter(name: 'id', in: 'path', required: true, schema: new OA\Schema(type: 'string'), example: '845852226109969182')
+            new OA\Parameter(name: 'packageId', in: 'path', required: true, schema: new OA\Schema(type: 'string'), example: '845852226109969182'),
+            new OA\Parameter(name: 'itemId', in: 'path', required: true, schema: new OA\Schema(type: 'string'), example: '845852226109969182')
         ],
         responses: [
             new OA\Response(
@@ -349,11 +349,12 @@ class PackageItemController extends Controller
             )
         ]
     )]
-    public function destroy(string $id)
+    public function destroy(Package $package, PackageItem $item)
     {
-        $packageItem = PackageItem::findOrFail($id);
-
-        $packageItem->delete();
+        if ($item->package_id !== $package->id) {
+            return $this->notFound();
+        }
+        $item->delete();
         return $this->successDeleted();
     }
 }

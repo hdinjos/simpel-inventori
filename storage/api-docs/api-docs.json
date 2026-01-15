@@ -1355,19 +1355,26 @@
                         "sanctum": []
                     }
                 ]
-            }
-        },
-        "/api/v1/package-items/{id}": {
+            },
             "delete": {
                 "tags": [
                     "Package Item"
                 ],
                 "summary": "Delete a package item",
                 "description": "Remove the specified resource from storage.",
-                "operationId": "08281498f6ed11760ddd42fc7260ef9f",
+                "operationId": "14f8fc2afa35c03eb5dcbed3877152cf",
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "packageId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "845852226109969182"
+                    },
+                    {
+                        "name": "itemId",
                         "in": "path",
                         "required": true,
                         "schema": {
