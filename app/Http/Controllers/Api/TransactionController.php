@@ -5,12 +5,10 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Transaction;
 use App\Traits\ApiResponse;
-use Illuminate\Http\Request;
 use App\Http\Requests\Transaction\StoreTransactionRequest;
 use Carbon\Carbon;
 use App\Enums\TransactionStatus;
 use App\Enums\TransactionType;
-use App\Models\Product;
 use Illuminate\Support\Facades\DB;
 use OpenApi\Attributes as OA;
 
@@ -50,39 +48,6 @@ class TransactionController extends Controller
                                     new OA\Property(property: 'status', type: 'string', example: 'draft'),
                                     new OA\Property(property: 'created_at', type: 'string', format: 'date-time', example: '2025-12-28T10:42:53.000000Z'),
                                     new OA\Property(property: 'updated_at', type: 'string', format: 'date-time', example: '2025-12-28T10:42:53.000000Z'),
-                                    // new OA\Property(
-                                    //     property: 'productCategory',
-                                    //     type: 'object',
-                                    //     properties: [
-                                    //         new OA\Property(property: 'id', type: 'string', example: '845852226109969182'),
-                                    //         new OA\Property(property: 'name', type: 'string', example: 'Electronics'),
-                                    //         new OA\Property(property: 'description', type: 'string', example: 'Electronics Category'),
-                                    //         new OA\Property(property: 'created_at', type: 'string', format: 'date-time', example: '2025-12-28T10:42:53.000000Z'),
-                                    //         new OA\Property(property: 'updated_at', type: 'string', format: 'date-time', example: '2025-12-28T10:42:53.000000Z'),
-                                    //     ]
-                                    // ),
-                                    // new OA\Property(
-                                    //     property: 'unit',
-                                    //     type: 'object',
-                                    //     properties: [
-                                    //         new OA\Property(property: 'id', type: 'string', example: '845852226109969182'),
-                                    //         new OA\Property(property: 'name', type: 'string', example: 'Box'),
-                                    //         new OA\Property(property: 'description', type: 'string', example: 'Box unit 1'),
-                                    //         new OA\Property(property: 'created_at', type: 'string', format: 'date-time', example: '2025-12-28T10:42:53.000000Z'),
-                                    //         new OA\Property(property: 'updated_at', type: 'string', format: 'date-time', example: '2025-12-28T10:42:53.000000Z'),
-                                    //     ]
-                                    // ),
-                                    // new OA\Property(
-                                    //     property: 'stock',
-                                    //     type: 'object',
-                                    //     properties: [
-                                    //         new OA\Property(property: 'id', type: 'string', example: '845852226109969182'),
-                                    //         new OA\Property(property: 'product_id', type: 'string', example: '845852226109969182'),
-                                    //         new OA\Property(property: 'quantity', type: 'integer', example: 0),
-                                    //         new OA\Property(property: 'created_at', type: 'string', format: 'date-time', example: '2025-12-28T10:42:53.000000Z'),
-                                    //         new OA\Property(property: 'updated_at', type: 'string', format: 'date-time', example: '2025-12-28T10:42:53.000000Z')
-                                    //     ]
-                                    // ),
                                 ]
                             )
                         ),
@@ -147,40 +112,7 @@ class TransactionController extends Controller
                                 new OA\Property(property: 'type', type: 'string', example: 'in'),
                                 new OA\Property(property: 'status', type: 'string', example: 'draft'),
                                 new OA\Property(property: 'created_at', type: 'string', format: 'date-time', example: '2025-12-28T10:42:53.000000Z'),
-                                new OA\Property(property: 'updated_at', type: 'string', format: 'date-time', example: '2025-12-28T10:42:53.000000Z'),
-                                // new OA\Property(
-                                //     property: 'productCategory',
-                                //     type: 'object',
-                                //     properties: [
-                                //         new OA\Property(property: 'id', type: 'string', example: '845852226109969182'),
-                                //         new OA\Property(property: 'name', type: 'string', example: 'Electronics'),
-                                //         new OA\Property(property: 'description', type: 'string', example: 'Electronics Category'),
-                                //         new OA\Property(property: 'created_at', type: 'string', format: 'date-time', example: '2025-12-28T10:42:53.000000Z'),
-                                //         new OA\Property(property: 'updated_at', type: 'string', format: 'date-time', example: '2025-12-28T10:42:53.000000Z'),
-                                //     ]
-                                // ),
-                                // new OA\Property(
-                                //     property: 'unit',
-                                //     type: 'object',
-                                //     properties: [
-                                //         new OA\Property(property: 'id', type: 'string', example: '845852226109969182'),
-                                //         new OA\Property(property: 'name', type: 'string', example: 'Box'),
-                                //         new OA\Property(property: 'description', type: 'string', example: 'Box unit 1'),
-                                //         new OA\Property(property: 'created_at', type: 'string', format: 'date-time', example: '2025-12-28T10:42:53.000000Z'),
-                                //         new OA\Property(property: 'updated_at', type: 'string', format: 'date-time', example: '2025-12-28T10:42:53.000000Z'),
-                                //     ]
-                                // ),
-                                // new OA\Property(
-                                //     property: 'stock',
-                                //     type: 'object',
-                                //     properties: [
-                                //         new OA\Property(property: 'id', type: 'string', example: '845852226109969182'),
-                                //         new OA\Property(property: 'product_id', type: 'string', example: '845852226109969182'),
-                                //         new OA\Property(property: 'quantity', type: 'integer', example: 0),
-                                //         new OA\Property(property: 'created_at', type: 'string', format: 'date-time', example: '2025-12-28T10:42:53.000000Z'),
-                                //         new OA\Property(property: 'updated_at', type: 'string', format: 'date-time', example: '2025-12-28T10:42:53.000000Z')
-                                //     ]
-                                // ),
+                                new OA\Property(property: 'updated_at', type: 'string', format: 'date-time', example: '2025-12-28T10:42:53.000000Z')
                             ]
                         ),
                     ]
@@ -237,18 +169,6 @@ class TransactionController extends Controller
         parameters: [
             new OA\Parameter(name: 'id', in: 'path', required: true, schema: new OA\Schema(type: 'string'), example: '845852226109969182')
         ],
-        // requestBody: new OA\RequestBody(
-        //     required: true,
-        //     content: new OA\JsonContent(
-        //         required: ['name', 'description', 'product_category_id', 'unit_id'],
-        //         properties: [
-        //             new OA\Property(property: 'name', type: 'string', example: 'Product A'),
-        //             new OA\Property(property: 'description', type: 'string', example: 'Product description'),
-        //             new OA\Property(property: 'product_category_id', type: 'string', example: '845852226109969182'),
-        //             new OA\Property(property: 'unit_id', type: 'string', example: '845852226109969182'),
-        //         ]
-        //     )
-        // ),
         responses: [
             new OA\Response(
                 response: 200,
@@ -270,39 +190,6 @@ class TransactionController extends Controller
                                 new OA\Property(property: 'status', type: 'string', example: 'finished'),
                                 new OA\Property(property: 'created_at', type: 'string', format: 'date-time', example: '2025-12-28T10:42:53.000000Z'),
                                 new OA\Property(property: 'updated_at', type: 'string', format: 'date-time', example: '2025-12-28T10:42:53.000000Z'),
-                                // new OA\Property(
-                                //     property: 'productCategory',
-                                //     type: 'object',
-                                //     properties: [
-                                //         new OA\Property(property: 'id', type: 'string', example: '845852226109969182'),
-                                //         new OA\Property(property: 'name', type: 'string', example: 'Electronics'),
-                                //         new OA\Property(property: 'description', type: 'string', example: 'Electronics Category'),
-                                //         new OA\Property(property: 'created_at', type: 'string', format: 'date-time', example: '2025-12-28T10:42:53.000000Z'),
-                                //         new OA\Property(property: 'updated_at', type: 'string', format: 'date-time', example: '2025-12-28T10:42:53.000000Z'),
-                                //     ]
-                                // ),
-                                // new OA\Property(
-                                //     property: 'unit',
-                                //     type: 'object',
-                                //     properties: [
-                                //         new OA\Property(property: 'id', type: 'string', example: '845852226109969182'),
-                                //         new OA\Property(property: 'name', type: 'string', example: 'Box'),
-                                //         new OA\Property(property: 'description', type: 'string', example: 'Box unit 1'),
-                                //         new OA\Property(property: 'created_at', type: 'string', format: 'date-time', example: '2025-12-28T10:42:53.000000Z'),
-                                //         new OA\Property(property: 'updated_at', type: 'string', format: 'date-time', example: '2025-12-28T10:42:53.000000Z'),
-                                //     ]
-                                // ),
-                                // new OA\Property(
-                                //     property: 'stock',
-                                //     type: 'object',
-                                //     properties: [
-                                //         new OA\Property(property: 'id', type: 'string', example: '845852226109969182'),
-                                //         new OA\Property(property: 'product_id', type: 'string', example: '845852226109969182'),
-                                //         new OA\Property(property: 'quantity', type: 'integer', example: 0),
-                                //         new OA\Property(property: 'created_at', type: 'string', format: 'date-time', example: '2025-12-28T10:42:53.000000Z'),
-                                //         new OA\Property(property: 'updated_at', type: 'string', format: 'date-time', example: '2025-12-28T10:42:53.000000Z')
-                                //     ]
-                                // )
                             ]
                         ),
                     ]
@@ -329,8 +216,12 @@ class TransactionController extends Controller
             )
         ]
     )]
-    public function update(Request $request, Transaction $transaction)
+    public function update(Transaction $transaction)
     {
+        if ($transaction->status !== TransactionStatus::DRAFT) {
+            return $this->conflict('Only draft transactions can be processed.');
+        }
+
         DB::beginTransaction();
 
         try {
