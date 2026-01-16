@@ -44,7 +44,7 @@ use OpenApi\Attributes as OA;
     required: false,
     schema: new OA\Schema(
         type: 'string',
-        example: 'Electronics',
+        example: '',
         minimum: 1
     )
 )]

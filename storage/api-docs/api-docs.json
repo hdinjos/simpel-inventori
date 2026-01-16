@@ -4019,6 +4019,107 @@
                 ]
             }
         },
+        "/api/v1/stock-opname": {
+            "get": {
+                "tags": [
+                    "Stock Opname"
+                ],
+                "summary": "List stock opname",
+                "description": "Display a listing of the resource.",
+                "operationId": "f75e1f06df5702603fa0342362c11f96",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/PaginationPage"
+                    },
+                    {
+                        "$ref": "#/components/parameters/PaginationLimit"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of product categories",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Resources retrieved successfully"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "string",
+                                                        "example": "845852226109969182"
+                                                    },
+                                                    "user_id": {
+                                                        "type": "string",
+                                                        "example": "850511022740609603"
+                                                    },
+                                                    "note": {
+                                                        "type": "string",
+                                                        "example": "stock opname for janary"
+                                                    },
+                                                    "status": {
+                                                        "type": "string",
+                                                        "example": "pending"
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2025-12-28T10:42:53.000000Z"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2025-12-28T10:42:53.000000Z"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "meta": {
+                                            "$ref": "#/components/schemas/PaginationMeta"
+                                        },
+                                        "links": {
+                                            "$ref": "#/components/schemas/PaginationLinks"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/api/v1/transactions": {
             "get": {
                 "tags": [
@@ -5544,7 +5645,7 @@
                 "schema": {
                     "type": "string",
                     "minimum": 1,
-                    "example": "Electronics"
+                    "example": ""
                 }
             }
         },
@@ -5584,6 +5685,10 @@
         {
             "name": "Product",
             "description": "Product"
+        },
+        {
+            "name": "Stock Opname",
+            "description": "Stock Opname"
         },
         {
             "name": "Transaction",

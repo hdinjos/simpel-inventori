@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\PackageController;
 use App\Http\Controllers\Api\PackageItemController;
 use App\Http\Controllers\Api\TransactionController;
 use App\Http\Controllers\Api\TransactionItemController;
+use App\Http\Controllers\Api\StockOpnameController;
 
 Route::post('/login', [AuthController::class, 'login']);
 
@@ -25,9 +26,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::prefix('packages/{package}')->group(function () {
         Route::apiResource("items", PackageItemController::class)->except('show');
     });
-    // Route::apiResource("package-items", PackageItemController::class)->except('show');
     Route::apiResource("transactions", TransactionController::class);
     Route::prefix('transactions/{transaction}')->group(function () {
         Route::apiResource("items", TransactionItemController::class);
     });
+
+    Route::apiResource("stock-opname", StockOpnameController::class)->only('index');
 });

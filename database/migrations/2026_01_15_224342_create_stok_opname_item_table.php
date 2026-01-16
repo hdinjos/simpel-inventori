@@ -11,15 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('stok_opname_item', function (Blueprint $table) {
+        Schema::create('stock_opname_item', function (Blueprint $table) {
             $table->bigInteger('id')->primary();
-            $table->bigInteger('stok_opname_id');
+            $table->bigInteger('stock_opname_id');
             $table->bigInteger('product_id');
             $table->integer('quantity');
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign('stok_opname_id')->references('id')->on('stok_opname')
+            $table->foreign('stock_opname_id')->references('id')->on('stock_opname')
                 ->restrictOnDelete()
                 ->cascadeOnUpdate();
 
@@ -34,6 +34,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('stok_opname_item');
+        Schema::dropIfExists('stock_opname_item');
     }
 };
